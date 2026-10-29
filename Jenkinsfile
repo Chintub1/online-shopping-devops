@@ -7,6 +7,14 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Test application') {
+            steps {
+                script {
+                    // The test image runs the unit tests during its Docker build.
+                    docker.build("online-shopping-test:${env.BUILD_NUMBER}", "-f Dockerfile.test .")
+                }
+            }
+        }
         stage('Build application image') {
             steps {
                 script {

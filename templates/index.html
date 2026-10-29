@@ -13,12 +13,24 @@
   </header>
   <main>
     <section class="hero"><div><p class="eyebrow">ONLINE SHOPPING SYSTEM</p><h1>Good finds for<br>everyday life.</h1><p class="hero-copy">A simple demo storefront built for a DevOps lab project.</p><a class="button button-dark" href="#products">Browse products</a></div><div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="bag">🛍️</div><div class="sparkle sparkle-one">✦</div><div class="sparkle sparkle-two">✦</div></div></section>
-    <section id="products" class="products-section"><div class="section-heading"><div><p class="eyebrow">THE COLLECTION</p><h2>Popular picks</h2></div><span class="muted">{{ products|length }} everyday essentials</span></div>
+    <section id="products" class="products-section"><div class="section-heading"><div><p class="eyebrow">THE COLLECTION</p><h2>Popular picks</h2></div><span class="muted">{{ products|length }} product{% if products|length != 1 %}s{% endif %}</span></div>
+      <form class="product-filters" action="{{ url_for('home') }}#products" method="get">
+        <label class="search-label" for="product-search">Search products</label>
+        <input id="product-search" type="search" name="q" value="{{ search_query }}" placeholder="Try 'headphones'">
+        <label class="category-label" for="product-category">Category</label>
+        <select id="product-category" name="category">
+          <option value="">All categories</option>
+          {% for category in categories %}<option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>{% endfor %}
+        </select>
+        <button class="button button-dark filter-button" type="submit">Find products</button>
+        {% if search_query or selected_category %}<a class="clear-filters" href="{{ url_for('home') }}#products">Clear filters</a>{% endif %}
+      </form>
       <div class="product-grid">
       {% for product in products %}
-        <article class="product-card"><div class="product-art art-{{ loop.index }}"><span>{{ product.emoji }}</span><small>SHOPLITE</small></div><div class="product-info"><div><h3>{{ product.name }}</h3><p>{{ product.description }}</p></div><strong>${{ '%.2f'|format(product.price) }}</strong></div><form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post"><button class="button button-light" type="submit">Add to cart <span>+</span></button></form></article>
+        <article class="product-card"><div class="product-art art-{{ loop.index }}"><span>{{ product.emoji }}</span><small>SHOPLITE</small></div><div class="product-info"><div><span class="category-tag">{{ product.category }}</span><h3>{{ product.name }}</h3><p>{{ product.description }}</p></div><strong>${{ '%.2f'|format(product.price) }}</strong></div><form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post"><button class="button button-light" type="submit">Add to cart <span>+</span></button></form></article>
       {% endfor %}
       </div>
+      {% if not products %}<div class="no-results"><h3>No products found</h3><p>Try another search or choose a different category.</p><a href="{{ url_for('home') }}#products">Show all products</a></div>{% endif %}
     </section>
   </main>
   <footer><span>ShopLite</span><span>Student DevOps lab project · Demo store only</span></footer>

@@ -1,15 +1,31 @@
 # ShopLite — Online Shopping System
 
-A small online shopping demo for a DevOps lab. It includes a product catalog, a session-based cart, a Docker image, and a Jenkins pipeline that builds the image from the GitHub repository.
+A small online shopping demo for a DevOps lab. It includes product search and category filters, a session-based cart, automated tests, a Docker image, and a Jenkins pipeline that tests and builds the app from the GitHub repository.
 
 ## What the project demonstrates
 
 - Source code stored in GitHub
 - Jenkins Pipeline as Code using the `Jenkinsfile`
 - Building a container image with Docker
+- Searching products by name and filtering by category
+- Running automated application tests in Jenkins before the app image is built
 - Running the same app locally or as a container
 
 The checkout button is intentionally a demo placeholder. The app has no database, payment processing, or real customer accounts.
+
+## Search and categories
+
+Use the search box to find products by name. Choose Accessories, Electronics, or Home to filter by category. Search and category filters can be used together.
+
+## Automated tests
+
+The tests cover the product list, case-insensitive search, category filtering, combined filters, no-result behavior, and adding an item to the cart. Run them locally with:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Jenkins runs the same tests by building `Dockerfile.test` before it builds the application image. A failed test stops the pipeline before the application image stage.
 
 ## Run locally
 
@@ -34,6 +50,12 @@ docker run --rm -p 5000:5000 online-shopping:local
 ```
 
 Then open http://localhost:5000.
+
+To run the automated tests in Docker locally:
+
+```bash
+docker build -f Dockerfile.test -t online-shopping-test:local .
+```
 
 ## Connect the project to GitHub
 
@@ -68,7 +90,7 @@ If Jenkins is on the same machine as Docker, make sure the Jenkins service runs 
 1. Explain the shopping app and show the product catalog and cart.
 2. Show the source code and `Jenkinsfile` in the GitHub repository.
 3. In Jenkins, show the pipeline run and its successful stages.
-4. Explain that Jenkins checks out the GitHub code and builds a Docker image.
+4. Explain that Jenkins checks out the GitHub code, runs automated tests in a Docker build, and builds the application image only when the tests pass.
 
 ## Project layout
 
@@ -76,11 +98,14 @@ If Jenkins is on the same machine as Docker, make sure the Jenkins service runs 
 online-shopping-devops/
 ├── app.py
 ├── Dockerfile
+├── Dockerfile.test
 ├── Jenkinsfile
 ├── requirements.txt
 ├── static/style.css
-└── templates/
-    ├── cart.html
-    └── index.html
+├── templates/
+│   ├── cart.html
+│   └── index.html
+└── tests/
+    └── test_app.py
 ```
 

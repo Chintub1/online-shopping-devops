@@ -1,13 +1,13 @@
-from flask import Flask, redirect, render_template, session, url_for
+from flask import Flask, redirect, render_template, request, session, url_for
 
 app = Flask(__name__)
 app.secret_key = "change-this-for-your-own-deployment"
 
 PRODUCTS = [
-    {"id": 1, "name": "Everyday Backpack", "price": 39.99, "emoji": "🎒", "description": "A light backpack for work, class, and weekends."},
-    {"id": 2, "name": "Steel Water Bottle", "price": 14.50, "emoji": "🧴", "description": "Reusable bottle to keep your drink close by."},
-    {"id": 3, "name": "Wireless Headphones", "price": 59.00, "emoji": "🎧", "description": "Comfortable headphones for music and study."},
-    {"id": 4, "name": "Desk Lamp", "price": 24.75, "emoji": "💡", "description": "A simple lamp for a brighter study desk."},
+    {"id": 1, "name": "Everyday Backpack", "price": 39.99, "emoji": "🎒", "description": "A light backpack for work, class, and weekends.", "category": "Accessories"},
+    {"id": 2, "name": "Steel Water Bottle", "price": 14.50, "emoji": "🧴", "description": "Reusable bottle to keep your drink close by.", "category": "Accessories"},
+    {"id": 3, "name": "Wireless Headphones", "price": 59.00, "emoji": "🎧", "description": "Comfortable headphones for music and study.", "category": "Electronics"},
+    {"id": 4, "name": "Desk Lamp", "price": 24.75, "emoji": "💡", "description": "A simple lamp for a brighter study desk.", "category": "Home"},
 ]
 
 
@@ -17,7 +17,22 @@ def cart_count():
 
 @app.get("/")
 def home():
-    return render_template("index.html", products=PRODUCTS, cart_count=cart_count())
+    search_query = request.args.get("q", "").strip()
+    selected_category = request.args.get("category", "").strip()
+    categories = sorted({product["category"] for product in PRODUCTS})
+    filtered_products = [
+        product for product in PRODUCTS
+        if search_query.casefold() in product["name"].casefold()
+        and (not selected_category or product["category"] == selected_category)
+    ]
+    return render_template(
+        "index.html",
+        products=filtered_products,
+        categories=categories,
+        search_query=search_query,
+        selected_category=selected_category,
+        cart_count=cart_count(),
+    )
 
 
 @app.get("/cart")
