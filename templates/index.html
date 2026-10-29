@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShopLite | Online Shopping System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('home') }}"><span class="brand-mark">S</span> ShopLite</a>
+    <nav><a href="{{ url_for('home') }}">Products</a><a class="cart-link" href="{{ url_for('cart') }}">Cart <span class="badge">{{ cart_count }}</span></a></nav>
+  </header>
+  <main>
+    <section class="hero"><div><p class="eyebrow">ONLINE SHOPPING SYSTEM</p><h1>Good finds for<br>everyday life.</h1><p class="hero-copy">A simple demo storefront built for a DevOps lab project.</p><a class="button button-dark" href="#products">Browse products</a></div><div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="bag">🛍️</div><div class="sparkle sparkle-one">✦</div><div class="sparkle sparkle-two">✦</div></div></section>
+    <section id="products" class="products-section"><div class="section-heading"><div><p class="eyebrow">THE COLLECTION</p><h2>Popular picks</h2></div><span class="muted">{{ products|length }} everyday essentials</span></div>
+      <div class="product-grid">
+      {% for product in products %}
+        <article class="product-card"><div class="product-art art-{{ loop.index }}"><span>{{ product.emoji }}</span><small>SHOPLITE</small></div><div class="product-info"><div><h3>{{ product.name }}</h3><p>{{ product.description }}</p></div><strong>${{ '%.2f'|format(product.price) }}</strong></div><form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post"><button class="button button-light" type="submit">Add to cart <span>+</span></button></form></article>
+      {% endfor %}
+      </div>
+    </section>
+  </main>
+  <footer><span>ShopLite</span><span>Student DevOps lab project · Demo store only</span></footer>
+</body>
+</html>
