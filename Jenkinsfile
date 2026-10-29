@@ -19,9 +19,17 @@ pipeline {
             steps {
                 script {
                     def image = docker.build("online-shopping:${env.BUILD_NUMBER}")
-                    // Keep the built image available on the Jenkins agent for a later deployment stage.
+                    // Keep the image available on the Jenkins agent for deployment below.
                     echo "Built ${image.id}"
                 }
+            }
+        }
+        stage('Deploy application') {
+            steps {
+                bat '''
+                    docker rm -f online-shopping-app online-shopping-updated online-shopping-vscode 2>NUL
+                    docker run -d --name online-shopping-app --restart unless-stopped -p 5000:5000 online-shopping:%BUILD_NUMBER%
+                '''
             }
         }
     }
