@@ -12,6 +12,7 @@ class ShopLiteTests(unittest.TestCase):
         response = self.client.get("/")
 
         self.assertEqual(response.status_code, 200)
+        self.assertIn(b"12 items", response.data)
         self.assertIn(b"Everyday Backpack", response.data)
         self.assertIn(b"Wireless Headphones", response.data)
 

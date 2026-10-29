@@ -14,6 +14,6 @@
       {% for item in items %}<article class="cart-item"><div class="cart-icon">{{ item.emoji }}</div><div class="cart-description"><h2>{{ item.name }}</h2><p>${{ '%.2f'|format(item.price) }} each · Quantity {{ item.quantity }}</p><form action="{{ url_for('remove_from_cart', product_id=item.id) }}" method="post"><button class="text-button" type="submit">Remove</button></form></div><strong>${{ '%.2f'|format(item.subtotal) }}</strong></article>{% endfor %}
       </section><aside class="summary"><h2>Order summary</h2><p><span>Subtotal</span><strong>${{ '%.2f'|format(total) }}</strong></p><p><span>Shipping</span><span>Calculated at checkout</span></p><div class="summary-total"><span>Total</span><strong>${{ '%.2f'|format(total) }}</strong></div><button class="button button-dark checkout" type="button" disabled>Checkout coming soon</button><form action="{{ url_for('clear_cart') }}" method="post"><button class="text-button clear-button" type="submit">Clear cart</button></form></aside></div>
     {% else %}<div class="empty-cart"><span>🛒</span><h2>Your cart is empty</h2><p>Take a look at the everyday essentials in our store.</p><a class="button button-dark" href="{{ url_for('home') }}">Browse products</a></div>{% endif %}
-  </main><footer><span>ShopLite</span><span>Student DevOps lab project · Demo store only</span></footer>
+  </main><footer><span>ShopLite</span><span>Considered essentials for everyday living</span></footer>
 </body>
 </html>

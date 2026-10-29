@@ -15,3 +15,10 @@
 .no-results h3{margin:0 0 7px;color:var(--ink);font:700 17px Manrope,sans-serif}
 .no-results p{margin:0 0 12px;font-size:12px}
 @media(max-width:600px){.product-filters{align-items:stretch}.product-filters label{width:100%}.product-filters input,.product-filters select,.product-filters .filter-button{width:100%}}
+
+/* Additional product colors and subtle card interaction */
+.art-5{background:#e7e3d7}.art-6{background:#dfe7ed}.art-7{background:#e8e5d7}.art-8{background:#e2e8dd}
+.art-9{background:#efe2db}.art-10{background:#e6e2eb}.art-11{background:#e4e8e2}.art-12{background:#e1e9ee}
+.product-card{transition:transform .18s ease,box-shadow .18s ease}
+.product-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px #20231f12}
+.product-card h3{line-height:1.4}

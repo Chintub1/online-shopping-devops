@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ShopLite | Online Shopping System</title>
+  <title>ShopLite | Everyday Essentials</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -12,8 +12,8 @@
     <nav><a href="{{ url_for('home') }}">Products</a><a class="cart-link" href="{{ url_for('cart') }}">Cart <span class="badge">{{ cart_count }}</span></a></nav>
   </header>
   <main>
-    <section class="hero"><div><p class="eyebrow">ONLINE SHOPPING SYSTEM</p><h1>Good finds for<br>everyday life.</h1><p class="hero-copy">A simple demo storefront built for a DevOps lab project.</p><a class="button button-dark" href="#products">Browse products</a></div><div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="bag">🛍️</div><div class="sparkle sparkle-one">✦</div><div class="sparkle sparkle-two">✦</div></div></section>
-    <section id="products" class="products-section"><div class="section-heading"><div><p class="eyebrow">THE COLLECTION</p><h2>Popular picks</h2></div><span class="muted">{{ products|length }} product{% if products|length != 1 %}s{% endif %}</span></div>
+    <section class="hero"><div><p class="eyebrow">SHOPLITE · EVERYDAY ESSENTIALS</p><h1>Thoughtful finds<br>for every day.</h1><p class="hero-copy">Useful pieces for work, home, and everything in between.</p><a class="button button-dark" href="#products">Explore the collection</a></div><div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="bag">🛍️</div><div class="sparkle sparkle-one">✦</div><div class="sparkle sparkle-two">✦</div></div></section>
+    <section id="products" class="products-section"><div class="section-heading"><div><p class="eyebrow">CURATED FOR YOU</p><h2>Shop the collection</h2></div><span class="muted">{{ products|length }} item{% if products|length != 1 %}s{% endif %}</span></div>
       <form class="product-filters" action="{{ url_for('home') }}#products" method="get">
         <label class="search-label" for="product-search">Search products</label>
         <input id="product-search" type="search" name="q" value="{{ search_query }}" placeholder="Try 'headphones'">
@@ -27,12 +27,12 @@
       </form>
       <div class="product-grid">
       {% for product in products %}
-        <article class="product-card"><div class="product-art art-{{ loop.index }}"><span>{{ product.emoji }}</span><small>SHOPLITE</small></div><div class="product-info"><div><span class="category-tag">{{ product.category }}</span><h3>{{ product.name }}</h3><p>{{ product.description }}</p></div><strong>${{ '%.2f'|format(product.price) }}</strong></div><form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post"><button class="button button-light" type="submit">Add to cart <span>+</span></button></form></article>
+        <article class="product-card"><div class="product-art art-{{ product.id }}"><span>{{ product.emoji }}</span><small>SHOPLITE</small></div><div class="product-info"><div><span class="category-tag">{{ product.category }}</span><h3>{{ product.name }}</h3><p>{{ product.description }}</p></div><strong>${{ '%.2f'|format(product.price) }}</strong></div><form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post"><button class="button button-light" type="submit">Add to cart <span>+</span></button></form></article>
       {% endfor %}
       </div>
       {% if not products %}<div class="no-results"><h3>No products found</h3><p>Try another search or choose a different category.</p><a href="{{ url_for('home') }}#products">Show all products</a></div>{% endif %}
     </section>
   </main>
-  <footer><span>ShopLite</span><span>Student DevOps lab project · Demo store only</span></footer>
+  <footer><span>ShopLite</span><span>Considered essentials for everyday living</span></footer>
 </body>
 </html>
